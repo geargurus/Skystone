@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 @com.qualcomm.robotcore.eventloop.opmode.Autonomous (name = "Arm Block Neutral")
 public class ArmBlockNeutral extends LinearOpMode { // extends LinearOpMode
@@ -14,6 +15,7 @@ public class ArmBlockNeutral extends LinearOpMode { // extends LinearOpMode
     double TICKS_PER_IN = 1120/(4*Math.PI);
     int tickGoal;
 
+    ElapsedTime timer = new ElapsedTime();
     @Override
     public void runOpMode() throws InterruptedException {
 
@@ -44,22 +46,23 @@ public class ArmBlockNeutral extends LinearOpMode { // extends LinearOpMode
         waitForStart();
         //write code;
 
-        strafeLeft(26,0.75);
+        strafeLeft(25,0.75, 1200);
         armGrab();
-        strafeRight(12,0.5);
-        forward(40,0.75);
+        strafeLeft(1,0.25,100 );
+        strafeRight(9,0.5,900 );
+        forward(42,0.75, 2700);
         armRelease();
-        intakeDown(500);
-        backward(24,0.75);
+        backward(24,0.75, 1475);
+        strafeLeft(7,0.5, 1000);
 
     }
 
-    public void forward(double inches, double power) {
-        drive(inches, power, power);
+    public void forward(double inches, double power, int time) {
+        drive(inches, power, power, time);
     }//forward
 
-    public void backward(double inches, double power) {
-        drive(-inches, power-0.18, power);
+    public void backward(double inches, double power, int time) {
+        drive(-inches, power-0.18, power, time);
     }//backwards
 
     public void turnLeft(double inches, double power) {
@@ -77,12 +80,12 @@ public class ArmBlockNeutral extends LinearOpMode { // extends LinearOpMode
         backRight.setPower(0);
     }//rest position
 
-    public void strafeLeft(double inches, double power) {
-        driveStrafe(inches, power);
+    public void strafeRight(double inches, double power, int time) {
+        driveStrafe(inches, power, time);
     }//strafe right
 
-    public void strafeRight(double inches, double power) {
-        driveStrafe(-inches, power);
+    public void strafeLeft(double inches, double power, int time) {
+        driveStrafe(-inches, power, time);
     }//strafe left
 
     public void liftUp(long time) {
@@ -118,14 +121,14 @@ public class ArmBlockNeutral extends LinearOpMode { // extends LinearOpMode
     }//servo on intake to release
 
     public void armGrab() {
-        arm.setPosition(0.5);
+        arm.setPosition(0.65);
     }//lowering the arm
 
     public void armRelease() {
         arm.setPosition(0);
     }//lifting the arm
 
-    public void drive(double inches, double leftPower, double rightPower) {
+    public void drive(double inches, double leftPower, double rightPower, int time) {
         tickGoal = (int) (TICKS_PER_IN * inches);
 
         frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -148,7 +151,8 @@ public class ArmBlockNeutral extends LinearOpMode { // extends LinearOpMode
         backLeft.setPower(leftPower);
         backRight.setPower(rightPower);
 
-        while (frontLeft.isBusy() || frontRight.isBusy() || backLeft.isBusy() || backRight.isBusy()) {
+        timer.reset();
+        while ((frontLeft.isBusy() || frontRight.isBusy() || backLeft.isBusy() || backRight.isBusy())&&timer.time()<time) {
             telemetry.addData("TickGoal", tickGoal);
             telemetry.addData("fL", frontLeft.getCurrentPosition());
             telemetry.addData("fR", frontRight.getCurrentPosition());
@@ -166,7 +170,9 @@ public class ArmBlockNeutral extends LinearOpMode { // extends LinearOpMode
         backLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
-    public void drive(double fLIn, double fRIn, double bLIn, double bRIn, double leftPower, double rightPower) {
+    public void drive(double fLIn, double fRIn, double bLIn, double bRIn, double leftPower, double rightPower,int time) {
+
+        timer.reset();
 
         frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         frontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -188,7 +194,7 @@ public class ArmBlockNeutral extends LinearOpMode { // extends LinearOpMode
         backLeft.setPower(leftPower);
         backRight.setPower(rightPower);
 
-        while (frontLeft.isBusy() || frontRight.isBusy() || backLeft.isBusy() || backRight.isBusy()) {
+        while ((frontLeft.isBusy() || frontRight.isBusy() || backLeft.isBusy() || backRight.isBusy()) && timer.time()<time ) {
             telemetry.addData("TickGoal", tickGoal);
             telemetry.addData("fL", frontLeft.getCurrentPosition());
             telemetry.addData("fR", frontRight.getCurrentPosition());
@@ -206,7 +212,7 @@ public class ArmBlockNeutral extends LinearOpMode { // extends LinearOpMode
         backLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
-    public void driveStrafe(double inches, double power) {
+    public void driveStrafe(double inches, double power, int time) {
         tickGoal = (int) (TICKS_PER_IN * inches);
 
         frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -229,7 +235,8 @@ public class ArmBlockNeutral extends LinearOpMode { // extends LinearOpMode
         backLeft.setPower(-power);
         backRight.setPower(power);
 
-        while (frontLeft.isBusy() || frontRight.isBusy() || backLeft.isBusy() || backRight.isBusy()) {
+        timer.reset();
+        while ((frontLeft.isBusy() || frontRight.isBusy() || backLeft.isBusy() || backRight.isBusy())&&timer.time()<time) {
             telemetry.addData("TickGoal", tickGoal);
             telemetry.addData("fL", frontLeft.getCurrentPosition());
             telemetry.addData("fR", frontRight.getCurrentPosition());
