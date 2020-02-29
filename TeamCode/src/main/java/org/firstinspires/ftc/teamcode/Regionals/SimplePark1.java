@@ -74,11 +74,11 @@ public class SimplePark1 extends LinearOpMode { // extends LinearOpMode
         backRight.setPower(0);
     }
 
-    public void strafeRight(double inches, double power) {
+    public void strafeLeft(double inches, double power) {
         driveStrafe(inches, power);
     }
 
-    public void strafeLeft(double inches, double power) {
+    public void strafeRight(double inches, double power) {
         driveStrafe(-inches, power);
     }
 

@@ -44,7 +44,7 @@ public class StrafeLeftBack extends LinearOpMode { // extends LinearOpMode
         waitForStart();
         //write code;
 
-        strafeLeft(300,0.75);
+        strafeLeft(25,0.75);
         intakeDown(500);
         backward(30,0.70);
 
@@ -75,11 +75,11 @@ public class StrafeLeftBack extends LinearOpMode { // extends LinearOpMode
         backRight.setPower(0);
     }
 
-    public void strafeRight(double inches, double power) {
+    public void strafeLeft(double inches, double power) {
         driveStrafe(inches, power);
     }
 
-    public void strafeLeft(double inches, double power) {
+    public void strafeRight(double inches, double power) {
         driveStrafe(-inches, power);
     }
 

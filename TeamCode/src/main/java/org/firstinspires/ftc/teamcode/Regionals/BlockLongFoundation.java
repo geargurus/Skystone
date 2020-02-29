@@ -5,8 +5,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
-@com.qualcomm.robotcore.eventloop.opmode.Autonomous (name = "Strafe Right Back")
-public class StrafeRightBack extends LinearOpMode { // extends LinearOpMode
+@com.qualcomm.robotcore.eventloop.opmode.Autonomous (name = "Block Long Foundation")
+public class BlockLongFoundation extends LinearOpMode { // extends LinearOpMode
     // over it implement methods
 
     DcMotor frontLeft , frontRight , backLeft , backRight, liftOne , liftTwo; // claim your motors outside under public class
@@ -44,11 +44,24 @@ public class StrafeRightBack extends LinearOpMode { // extends LinearOpMode
         waitForStart();
         //write code;
 
-        strafeRight(25,0.75);
-        intakeDown(500);
-        backward(30,0.70);
-
-
+        forward(36,0.75);
+        intakeRelease();
+        intakeDown(400);
+        intakeGrab();
+        intakeUp(300);
+        backward(12,0.5);
+        strafeLeft(60,0.75);
+        turnLeft(12,0.5);
+        forward(48,0.75);
+        strafeLeft(12,0.5);
+        forward(8,0.5);
+        intakeDown(350);
+        intakeRelease();
+        intakeUp(350);
+        strafeRight(36,0.75);
+        backward(48,0.75);
+        intakeDown(400);
+        backward(12,0.5);
 
     }
 

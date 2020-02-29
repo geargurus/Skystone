@@ -44,84 +44,86 @@ public class ArmBlockNeutral extends LinearOpMode { // extends LinearOpMode
         waitForStart();
         //write code;
 
-        strafeRight(48,0.50);
+        strafeLeft(26,0.75);
+        armGrab();
+        strafeRight(12,0.5);
+        forward(40,0.75);
+        armRelease();
         intakeDown(500);
-        backward(30,0.70);
-
-
+        backward(24,0.75);
 
     }
 
     public void forward(double inches, double power) {
         drive(inches, power, power);
-    }
+    }//forward
 
     public void backward(double inches, double power) {
         drive(-inches, power-0.18, power);
-    }
+    }//backwards
 
     public void turnLeft(double inches, double power) {
         driveLeft(inches, power);
-    }
+    }//turn left in itself
 
     public void turnRight(double inches, double power) {
         driveRight(inches, power);
-    }
+    }//turn right in itself
 
     public void stopBase() {
         frontLeft.setPower(0);
         frontRight.setPower(0);
         backLeft.setPower(0);
         backRight.setPower(0);
-    }
-
-    public void strafeRight(double inches, double power) {
-        driveStrafe(inches, power);
-    }
+    }//rest position
 
     public void strafeLeft(double inches, double power) {
+        driveStrafe(inches, power);
+    }//strafe right
+
+    public void strafeRight(double inches, double power) {
         driveStrafe(-inches, power);
-    }
+    }//strafe left
 
     public void liftUp(long time) {
         liftOne.setPower(1);
         sleep(time);
         liftOne.setPower(0);
-    }
+    }//drawer slides up
 
     public void liftDown(long time) {
         liftOne.setPower(-1);
         sleep(time);
         liftOne.setPower(0);
-    }
+    }//drawer slides down
 
     public void intakeUp(long time) {
         liftTwo.setPower(1);
         sleep(time);
         liftTwo.setPower(0);
-    }
+    }//intake up
 
     public void intakeDown(long time) {
         liftTwo.setPower(-1);
         sleep(time);
         liftTwo.setPower(0);
-    }
+    }//intake down
 
     public void intakeGrab() {
         intake.setPosition(0.3);
-    }
+    }//servo on intake to grab
 
     public void intakeRelease() {
         intake.setPosition(0);
-    }
+    }//servo on intake to release
 
     public void armGrab() {
-        arm.setPosition(0.3);
-    }
+        arm.setPosition(0.5);
+    }//lowering the arm
 
     public void armRelease() {
         arm.setPosition(0);
-    }
+    }//lifting the arm
 
     public void drive(double inches, double leftPower, double rightPower) {
         tickGoal = (int) (TICKS_PER_IN * inches);
