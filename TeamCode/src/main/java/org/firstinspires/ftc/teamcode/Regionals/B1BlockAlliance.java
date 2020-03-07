@@ -1,13 +1,12 @@
 package org.firstinspires.ftc.teamcode.Regionals;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
-@Disabled
-@com.qualcomm.robotcore.eventloop.opmode.Autonomous (name = "Block Long Foundation")
-public class BlockLongFoundation extends LinearOpMode { // extends LinearOpMode
+
+@com.qualcomm.robotcore.eventloop.opmode.Autonomous (name = "B.1 Block Alliance")
+public class B1BlockAlliance extends LinearOpMode { // extends LinearOpMode
     // over it implement methods
 
     DcMotor frontLeft , frontRight , backLeft , backRight, liftOne , liftTwo; // claim your motors outside under public class
@@ -45,24 +44,14 @@ public class BlockLongFoundation extends LinearOpMode { // extends LinearOpMode
         waitForStart();
         //write code;
 
-        forward(36,0.75);
-        intakeRelease();
-        intakeDown(400);
-        intakeGrab();
-        intakeUp(300);
-        backward(12,0.5);
-        strafeLeft(60,0.75);
-        turnLeft(12,0.5);
-        forward(48,0.75);
-        strafeLeft(12,0.5);
-        forward(8,0.5);
-        intakeDown(350);
-        intakeRelease();
-        intakeUp(350);
-        strafeRight(36,0.75);
-        backward(48,0.75);
-        intakeDown(400);
-        backward(12,0.5);
+        strafeLeft(25,0.75);
+        armGrab();
+        strafeLeft(1,0.50);
+        strafeRight(31,0.5);
+        forward(40,0.75);
+        armRelease();
+        intakeDown(500);
+        backward(20,0.75);
 
     }
 
@@ -71,7 +60,7 @@ public class BlockLongFoundation extends LinearOpMode { // extends LinearOpMode
     }
 
     public void backward(double inches, double power) {
-        drive(-inches, power-0.18, power);
+        drive(-inches, power, power);
     }
 
     public void turnLeft(double inches, double power) {
@@ -89,11 +78,11 @@ public class BlockLongFoundation extends LinearOpMode { // extends LinearOpMode
         backRight.setPower(0);
     }
 
-    public void strafeLeft(double inches, double power) {
+    public void strafeRight(double inches, double power) {
         driveStrafe(inches, power);
     }
 
-    public void strafeRight(double inches, double power) {
+    public void strafeLeft(double inches, double power) {
         driveStrafe(-inches, power);
     }
 
@@ -130,7 +119,7 @@ public class BlockLongFoundation extends LinearOpMode { // extends LinearOpMode
     }
 
     public void armGrab() {
-        arm.setPosition(0.3);
+        arm.setPosition(0.65);
     }
 
     public void armRelease() {

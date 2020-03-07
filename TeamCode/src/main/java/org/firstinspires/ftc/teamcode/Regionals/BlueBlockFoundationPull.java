@@ -1,13 +1,13 @@
 package org.firstinspires.ftc.teamcode.Regionals;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
-@com.qualcomm.robotcore.eventloop.opmode.Autonomous (name = "Arm 2 Block Neutral")
-public class Arm2BlockNeutral extends LinearOpMode { // extends LinearOpMode
+@com.qualcomm.robotcore.eventloop.opmode.Autonomous (name = "B. Grab Block & Pull Foundation")
+public class BlueBlockFoundationPull extends LinearOpMode { // extends LinearOpMode
     // over it implement methods
 
     DcMotor frontLeft , frontRight , backLeft , backRight, liftOne , liftTwo; // claim your motors outside under public class
@@ -15,7 +15,6 @@ public class Arm2BlockNeutral extends LinearOpMode { // extends LinearOpMode
     double TICKS_PER_IN = 1120/(4*Math.PI);
     int tickGoal;
 
-    ElapsedTime timer = new ElapsedTime();
     @Override
     public void runOpMode() throws InterruptedException {
 
@@ -46,96 +45,102 @@ public class Arm2BlockNeutral extends LinearOpMode { // extends LinearOpMode
         waitForStart();
         //write code;
 
-        strafeLeft(25,0.75, 1200);
-        armGrab();
-        strafeLeft(1,0.25,100 );
-        strafeRight(9,0.5,900 );
-        forward(42,0.75, 2700);
-        armRelease();
-        backward(60,0.75, 3000);
-        strafeLeft(27,0.5, 1000);
-        armGrab();
-        strafeLeft(1,0.25,100 );
-        strafeRight(13.5,0.5,900 );
-        forward(58,0.75, 3000);
-        armRelease();
-        strafeLeft(5.75,0.5,400);
-        backward(30,0.75,1475);
+        forward(25,0.75);
+        intakeRelease();
+        intakeDown(800);
+        intakeGrab();
+        intakeUp(300);
+        backward(12,0.5);
+        strafeLeft(30,0.75);
+        liftUp(700);
+        backward(18,0.75);
+        strafeLeft(19,0.75);
+        forward(24,0.75);
+        liftUp(700);
+        intakeDown(500);
+        intakeRelease();
+        intakeUp(500);
+        backward(48,0.75);
+        liftDown(700);
+        strafeRight(20,0.75);
+        liftDown(400);
+        forward(20,0.75);
+        strafeRight(5,0.5);
 
     }
 
-    public void forward(double inches, double power, int time) {
-        drive(inches, power, power, time);
-    }//forward
+    public void forward(double inches, double power) {
+        drive(inches, power, power);
+    }
 
-    public void backward(double inches, double power, int time) {
-        drive(-inches, power-0.18, power, time);
-    }//backwards
+    public void backward(double inches, double power) {
+        drive(-inches, power-0.18, power);
+    }
 
     public void turnLeft(double inches, double power) {
         driveLeft(inches, power);
-    }//turn left in itself
+    }
 
     public void turnRight(double inches, double power) {
         driveRight(inches, power);
-    }//turn right in itself
+    }
 
     public void stopBase() {
         frontLeft.setPower(0);
         frontRight.setPower(0);
         backLeft.setPower(0);
         backRight.setPower(0);
-    }//rest position
+    }
 
-    public void strafeRight(double inches, double power, int time) {
-        driveStrafe(inches, power, time);
-    }//strafe right
+    public void strafeLeft(double inches, double power) {
+        driveStrafe(inches, power);
+    }
 
-    public void strafeLeft(double inches, double power, int time) {
-        driveStrafe(-inches, power, time);
-    }//strafe left
+    public void strafeRight(double inches, double power) {
+        driveStrafe(-inches, power);
+    }
 
     public void liftUp(long time) {
         liftOne.setPower(1);
         sleep(time);
         liftOne.setPower(0);
-    }//drawer slides up
+    }
 
     public void liftDown(long time) {
         liftOne.setPower(-1);
         sleep(time);
         liftOne.setPower(0);
-    }//drawer slides down
+    }
 
     public void intakeUp(long time) {
         liftTwo.setPower(1);
         sleep(time);
         liftTwo.setPower(0);
-    }//intake up
+    }
 
     public void intakeDown(long time) {
         liftTwo.setPower(-1);
         sleep(time);
         liftTwo.setPower(0);
-    }//intake down
+    }
 
     public void intakeGrab() {
         intake.setPosition(0.3);
-    }//servo on intake to grab
+    }
 
     public void intakeRelease() {
         intake.setPosition(0);
-    }//servo on intake to release
+    }
 
     public void armGrab() {
-        arm.setPosition(0.65);
-    }//lowering the arm
+        arm.setPosition(0.3);
+    }
 
     public void armRelease() {
         arm.setPosition(0);
-    }//lifting the arm
+    }
 
-    public void drive(double inches, double leftPower, double rightPower, int time) {
+    public void drive(double inches, double leftPower, double rightPower) {
         tickGoal = (int) (TICKS_PER_IN * inches);
 
         frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -158,8 +163,7 @@ public class Arm2BlockNeutral extends LinearOpMode { // extends LinearOpMode
         backLeft.setPower(leftPower);
         backRight.setPower(rightPower);
 
-        timer.reset();
-        while ((frontLeft.isBusy() || frontRight.isBusy() || backLeft.isBusy() || backRight.isBusy())&&timer.time()<time) {
+        while (frontLeft.isBusy() || frontRight.isBusy() || backLeft.isBusy() || backRight.isBusy()) {
             telemetry.addData("TickGoal", tickGoal);
             telemetry.addData("fL", frontLeft.getCurrentPosition());
             telemetry.addData("fR", frontRight.getCurrentPosition());
@@ -177,9 +181,7 @@ public class Arm2BlockNeutral extends LinearOpMode { // extends LinearOpMode
         backLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
-    public void drive(double fLIn, double fRIn, double bLIn, double bRIn, double leftPower, double rightPower,int time) {
-
-        timer.reset();
+    public void drive(double fLIn, double fRIn, double bLIn, double bRIn, double leftPower, double rightPower) {
 
         frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         frontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -201,7 +203,7 @@ public class Arm2BlockNeutral extends LinearOpMode { // extends LinearOpMode
         backLeft.setPower(leftPower);
         backRight.setPower(rightPower);
 
-        while ((frontLeft.isBusy() && frontRight.isBusy() && backLeft.isBusy() && backRight.isBusy()) && timer.time()<time ) {
+        while (frontLeft.isBusy() || frontRight.isBusy() || backLeft.isBusy() || backRight.isBusy()) {
             telemetry.addData("TickGoal", tickGoal);
             telemetry.addData("fL", frontLeft.getCurrentPosition());
             telemetry.addData("fR", frontRight.getCurrentPosition());
@@ -219,7 +221,7 @@ public class Arm2BlockNeutral extends LinearOpMode { // extends LinearOpMode
         backLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
-    public void driveStrafe(double inches, double power, int time) {
+    public void driveStrafe(double inches, double power) {
         tickGoal = (int) (TICKS_PER_IN * inches);
 
         frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -242,8 +244,7 @@ public class Arm2BlockNeutral extends LinearOpMode { // extends LinearOpMode
         backLeft.setPower(-power);
         backRight.setPower(power);
 
-        timer.reset();
-        while ((frontLeft.isBusy() && frontRight.isBusy() && backLeft.isBusy() && backRight.isBusy())&&timer.time()<time) {
+        while (frontLeft.isBusy() || frontRight.isBusy() || backLeft.isBusy() || backRight.isBusy()) {
             telemetry.addData("TickGoal", tickGoal);
             telemetry.addData("fL", frontLeft.getCurrentPosition());
             telemetry.addData("fR", frontRight.getCurrentPosition());
@@ -283,7 +284,7 @@ public class Arm2BlockNeutral extends LinearOpMode { // extends LinearOpMode
         backLeft.setPower(-power);
         backRight.setPower(power);
 
-        while (frontLeft.isBusy()  /*frontRight.isBusy()*/ && backLeft.isBusy() /*backRight.isBusy()*/) {
+        while (frontLeft.isBusy()  /*frontRight.isBusy()*/ || backLeft.isBusy() /*backRight.isBusy()*/) {
             telemetry.addData("TickGoal", tickGoal);
             telemetry.addData("fL", frontLeft.getCurrentPosition());
             telemetry.addData("fR", frontRight.getCurrentPosition());

@@ -19,9 +19,10 @@ public class TeleOpV2 extends OpMode {
     public DcMotor liftTwo;
 
     public Servo intake;
+    public Servo arm;
 
-    public double driveSpeed = 0.8;
-    public double strafeSpeed = 0.5;
+    public double driveSpeed = 1.0;
+    public double strafeSpeed = 1.0;
 
     @Override
     public void init() {
@@ -34,6 +35,7 @@ public class TeleOpV2 extends OpMode {
         liftTwo = hardwareMap.dcMotor.get("liftTwo");
 
         intake = hardwareMap.servo.get("intake");
+        arm = hardwareMap.servo.get("arm");
 
         frontRight.setDirection(DcMotorSimple.Direction.REVERSE);
         backRight.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -89,9 +91,16 @@ public class TeleOpV2 extends OpMode {
 
         //Intake
         if(Math.abs(gamepad2.right_trigger) > 0.1) {
-            intake.setPosition(0.3);
+            intake.setPosition(0.4);
         } else {
             intake.setPosition(0);
+        }
+
+        //Arm
+        if(Math.abs(gamepad2.left_trigger) > 0.1) {
+            arm.setPosition(0.6);
+        } else {
+            arm.setPosition(0);
         }
 
         telemetry.addData("Drawer Slides Pos", liftOne.getCurrentPosition());
@@ -101,6 +110,7 @@ public class TeleOpV2 extends OpMode {
         telemetry.addData("Back Left", backLeft.getCurrentPosition());
         telemetry.addData("Back Right", backRight.getCurrentPosition());
         telemetry.addData("FJKALF", gamepad1.left_stick_y);
+        telemetry.addData("arm", gamepad2.left_stick_x);
         telemetry.update();
     }
 }

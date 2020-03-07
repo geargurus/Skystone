@@ -1,12 +1,13 @@
 package org.firstinspires.ftc.teamcode.Regionals;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
-@com.qualcomm.robotcore.eventloop.opmode.Autonomous (name = "Grab Block & Pull Foundation")
-public class BlockFoundationPull extends LinearOpMode { // extends LinearOpMode
+@com.qualcomm.robotcore.eventloop.opmode.Autonomous (name = "Blue Foundation Alliance")
+public class BlueFoundationAlliance extends LinearOpMode { // extends LinearOpMode
     // over it implement methods
 
     DcMotor frontLeft , frontRight , backLeft , backRight, liftOne , liftTwo; // claim your motors outside under public class
@@ -44,23 +45,21 @@ public class BlockFoundationPull extends LinearOpMode { // extends LinearOpMode
         waitForStart();
         //write code;
 
-        forward(28,0.75);
-        intakeRelease();
-        intakeDown(400);
-        intakeGrab();
-        intakeUp(300);
-        backward(12,0.5);
-        strafeLeft(60,0.75);
-        liftUp(300);
-        forward(48,0.75);
-        intakeDown(350);
-        backward(48,0.75);
-        liftUp(400);
-        strafeRight(36,0.75);
-        intakeDown(400);
-        turnLeft(12,0.5);
-        intakeDown(300);
-        backward(12,0.5);
+       strafeLeft(10,0.75);
+       liftUp(700);
+       forward(23,0.75);
+       liftDown(700);
+       backward(44,0.75);
+       liftUp(600);
+       strafeRight(32,.75);
+       liftDown(600);
+       intakeDown(400);
+       strafeRight(3,0.75);
+       backward(5,0.75);
+
+       /*liftDown(600);
+       turnLeft(12,0.5);
+       backward(12,0.5);*/
     }
 
     public void forward(double inches, double power) {
@@ -68,7 +67,7 @@ public class BlockFoundationPull extends LinearOpMode { // extends LinearOpMode
     }
 
     public void backward(double inches, double power) {
-        drive(-inches, power-0.18, power);
+        drive(-inches, power-0.50, power);
     }
 
     public void turnLeft(double inches, double power) {
@@ -95,13 +94,13 @@ public class BlockFoundationPull extends LinearOpMode { // extends LinearOpMode
     }
 
     public void liftUp(long time) {
-        liftOne.setPower(1);
+        liftOne.setPower(-1);
         sleep(time);
         liftOne.setPower(0);
     }
 
     public void liftDown(long time) {
-        liftOne.setPower(-1);
+        liftOne.setPower(1);
         sleep(time);
         liftOne.setPower(0);
     }

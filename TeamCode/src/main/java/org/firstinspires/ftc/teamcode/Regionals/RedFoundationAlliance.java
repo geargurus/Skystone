@@ -5,9 +5,9 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
-@Disabled
-@com.qualcomm.robotcore.eventloop.opmode.Autonomous (name = "Block Long Foundation")
-public class BlockLongFoundation extends LinearOpMode { // extends LinearOpMode
+
+@com.qualcomm.robotcore.eventloop.opmode.Autonomous (name = "Red Foundation Alliance")
+public class RedFoundationAlliance extends LinearOpMode { // extends LinearOpMode
     // over it implement methods
 
     DcMotor frontLeft , frontRight , backLeft , backRight, liftOne , liftTwo; // claim your motors outside under public class
@@ -45,25 +45,16 @@ public class BlockLongFoundation extends LinearOpMode { // extends LinearOpMode
         waitForStart();
         //write code;
 
-        forward(36,0.75);
-        intakeRelease();
-        intakeDown(400);
-        intakeGrab();
-        intakeUp(300);
-        backward(12,0.5);
-        strafeLeft(60,0.75);
-        turnLeft(12,0.5);
-        forward(48,0.75);
-        strafeLeft(12,0.5);
-        forward(8,0.5);
-        intakeDown(350);
-        intakeRelease();
-        intakeUp(350);
-        strafeRight(36,0.75);
+        strafeRight(10,0.75);
+        liftUp(700);
+        forward(26,0.75);
+        liftDown(700);
         backward(48,0.75);
+        liftUp(700);
+        strafeLeft(40,.75);
+        liftDown(600);
         intakeDown(400);
-        backward(12,0.5);
-
+        strafeLeft(9,0.5);
     }
 
     public void forward(double inches, double power) {
@@ -71,7 +62,7 @@ public class BlockLongFoundation extends LinearOpMode { // extends LinearOpMode
     }
 
     public void backward(double inches, double power) {
-        drive(-inches, power-0.18, power);
+        drive(-inches, power-0.30, power);
     }
 
     public void turnLeft(double inches, double power) {
@@ -98,19 +89,19 @@ public class BlockLongFoundation extends LinearOpMode { // extends LinearOpMode
     }
 
     public void liftUp(long time) {
-        liftOne.setPower(1);
-        sleep(time);
-        liftOne.setPower(0);
-    }
-
-    public void liftDown(long time) {
         liftOne.setPower(-1);
         sleep(time);
         liftOne.setPower(0);
     }
 
+    public void liftDown(long time) {
+        liftOne.setPower(1);
+        sleep(time);
+        liftOne.setPower(0);
+    }
+
     public void intakeUp(long time) {
-        liftTwo.setPower(1);
+        liftTwo.setPower(-1);
         sleep(time);
         liftTwo.setPower(0);
     }

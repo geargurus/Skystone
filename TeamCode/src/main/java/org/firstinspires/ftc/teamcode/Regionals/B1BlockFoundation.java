@@ -6,8 +6,8 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@com.qualcomm.robotcore.eventloop.opmode.Autonomous (name = "Arm Block Neutral")
-public class ArmBlockNeutral extends LinearOpMode { // extends LinearOpMode
+@com.qualcomm.robotcore.eventloop.opmode.Autonomous (name = "B.1 Block Foundation ")
+public class B1BlockFoundation extends LinearOpMode { // extends LinearOpMode
     // over it implement methods
 
     DcMotor frontLeft , frontRight , backLeft , backRight, liftOne , liftTwo; // claim your motors outside under public class
@@ -52,8 +52,17 @@ public class ArmBlockNeutral extends LinearOpMode { // extends LinearOpMode
         strafeRight(9,0.5,900 );
         forward(42,0.75, 2700);
         armRelease();
-        backward(24,0.75, 1475);
-        strafeLeft(7,0.5, 1000);
+        strafeLeft(25,0.75,1200);
+        turnRight(18,0.75);
+        strafeRight(11,0.75, 1000);
+        liftUp(700);
+        forward(24,0.75,1200);
+        liftDown(700);
+        backward(48,0.75,300);
+        liftUp(700);
+        strafeRight(30,0.75,1500);
+        forward(24,0.75,1200);
+        strafeRight(5,0.75,700);
 
     }
 
